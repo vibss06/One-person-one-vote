@@ -1,7 +1,7 @@
 let votes = JSON.parse(localStorage.getItem("votes")) || {
   Vibhanshu: 0,
   Sharayu: 0,
-  Khushab: 0
+  XYZ: 0
 };
 
 let voters = JSON.parse(localStorage.getItem("voters")) || {};
@@ -57,7 +57,7 @@ function disableVoting() {
 
 function clearVotes() {
   if (confirm("Clear all votes and voters?")) {
-    votes = { Vibhanshu: 0, Sharayu: 0, Khushab: 0 };
+    votes = { Vibhanshu: 0, Sharayu: 0, XYZ: 0 };
     voters = {};
     saveData();
   }
