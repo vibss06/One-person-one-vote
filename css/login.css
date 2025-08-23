@@ -1,4 +1,4 @@
-/* Full-screen background with image + dark overlay */
+/* Full-screen background with jdcollege.jpg + dark overlay */
 body {
   height: 100vh;
   display: flex;
@@ -65,4 +65,5 @@ body {
   font-size: 14px;
   color: #eee;
 }
+
 
