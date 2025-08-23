@@ -80,3 +80,17 @@ button:hover {
     opacity: 1;
   }
 }
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Add image + a subtle dark overlay for readability */
+  background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+              url('jdcollege.jpg') center/cover no-repeat fixed;
+
+  font-family: 'Segoe UI', sans-serif;
+}
+
