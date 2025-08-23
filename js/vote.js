@@ -57,7 +57,7 @@ function disableVoting() {
 
 function clearVotes() {
   if (confirm("Clear all votes and voters?")) {
-    votes = { Vibhanshu: 0, Sharayu: 0, XYZ: 0 };
+    votes = { Vibhanshu: 0, Sharayu: 0, Khushab: 0 };
     voters = {};
     saveData();
   }
