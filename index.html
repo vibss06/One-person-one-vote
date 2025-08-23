@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Online Voting</title>
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="login-container">
+    <h1>Welcome to Online Voting</h1>
+    <p>Enter your username to continue</p>
+    <input type="text" id="username" placeholder="Enter Username">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value.trim();
+      if (!username) {
+        alert("Please enter a username!");
+        return;
+      }
+
+      localStorage.setItem("currentUser", username);
+      window.location.href = "vote.html";
+    }
+  </script>
+</body>
+</html>
