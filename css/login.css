@@ -6,7 +6,7 @@ body {
   align-items: center;
 
   background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-              url("jdcollege.jpg") center/cover no-repeat fixed;
+              url('jdcollege.jpg') center/cover no-repeat fixed;
 
   font-family: 'Segoe UI', sans-serif;
   margin: 0;
