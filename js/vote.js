@@ -1,7 +1,7 @@
 let votes = JSON.parse(localStorage.getItem("votes")) || {
   Vibhanshu: 0,
   Sharayu: 0,
-  XYZ: 0
+  Khushab: 0
 };
 
 let voters = JSON.parse(localStorage.getItem("voters")) || {};
