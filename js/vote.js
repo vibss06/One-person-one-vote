@@ -1,96 +1,90 @@
-let votes = JSON.parse(localStorage.getItem("votes")) || {
-  Vibhanshu: 0,
-  Sharayu: 0,
-  XYZ: 0
-};
+// =============================
+//  Candidate list (EDIT HERE)
+// =============================
+const candidates = ["Vibhanshu", "Raj", "Sneha", "Ananya"];
 
-let voters = JSON.parse(localStorage.getItem("voters")) || {};
+// Track current user
 let currentUser = localStorage.getItem("currentUser");
 
-// Check login
-if (!currentUser) {
-  window.location.href = "index.html";
-} else {
-  document.getElementById("welcomeUser").innerText = `Logged in as: ${currentUser}`;
-}
+// Ensure votes object exists
+let votes = JSON.parse(localStorage.getItem("votes")) || {};
+let userVotes = JSON.parse(localStorage.getItem("userVotes")) || {};
 
-// Save votes + voters
-function saveData() {
-  localStorage.setItem("votes", JSON.stringify(votes));
-  localStorage.setItem("voters", JSON.stringify(voters));
-  updateResults();
-}
+// Render candidates dynamically
+const candidatesDiv = document.getElementById("candidates");
+candidates.forEach(name => {
+  const div = document.createElement("div");
+  div.classList.add("candidate");
+  div.innerHTML = `
+    <span>${name}</span>
+    <button class="vote-btn" data-candidate="${name}">Vote</button>
+  `;
+  candidatesDiv.appendChild(div);
+});
 
-function vote(candidate) {
-  if (voters[currentUser]) {
-    alert("You have already voted!");
-    return;
-  }
-  votes[candidate]++;
-  voters[currentUser] = true;
-  alert(`Thanks! ${currentUser}, your vote for ${candidate} has been recorded.`);
-  saveData();
-  disableVoting();
-}
+// Handle voting
+document.querySelectorAll(".vote-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const candidate = btn.dataset.candidate;
 
-function updateResults() {
-  const resultsDiv = document.getElementById("resultsList");
-  resultsDiv.innerHTML = "";
-  let total = 0;
-  for (let [name, count] of Object.entries(votes)) {
-    resultsDiv.innerHTML += `<p>${name}: ${count} votes</p>`;
-    total += count;
-  }
-  document.getElementById("totalVotes").innerText = `Total votes: ${total}`;
-}
+    if (userVotes[currentUser]) {
+      alert("You have already voted!");
+      return;
+    }
 
-// Disable voting if user already voted
-function disableVoting() {
-  if (voters[currentUser]) {
-    document.querySelectorAll(".candidate button").forEach(btn => {
-      btn.disabled = true;
-      btn.style.background = "#888";
-      btn.style.cursor = "not-allowed";
-    });
-  }
-}
+    votes[candidate] = (votes[candidate] || 0) + 1;
+    userVotes[currentUser] = true;
 
-function clearVotes() {
-  if (confirm("Clear all votes and voters?")) {
-    votes = { Vibhanshu: 0, Sharayu: 0, XYZ: 0 };
-    voters = {};
-    saveData();
-  }
-}
+    localStorage.setItem("votes", JSON.stringify(votes));
+    localStorage.setItem("userVotes", JSON.stringify(userVotes));
 
-function exportVotes() {
-  const data = JSON.stringify({ votes, voters });
-  const blob = new Blob([data], { type: "application/json" });
+    alert(`Vote casted for ${candidate}`);
+  });
+});
+
+// Export votes
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify(votes)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
   a.href = url;
   a.download = "votes.json";
   a.click();
-}
+});
 
-function importVotes(event) {
+// Import votes
+document.getElementById("importBtn").addEventListener("click", () => {
+  document.getElementById("fileInput").click();
+});
+
+document.getElementById("fileInput").addEventListener("change", (event) => {
   const file = event.target.files[0];
+  if (!file) return;
+
   const reader = new FileReader();
-  reader.onload = function(e) {
-    const imported = JSON.parse(e.target.result);
-    votes = imported.votes || votes;
-    voters = imported.voters || voters;
-    saveData();
-    disableVoting();
+  reader.onload = (e) => {
+    votes = JSON.parse(e.target.result);
+    localStorage.setItem("votes", JSON.stringify(votes));
+    alert("Votes imported successfully!");
   };
   reader.readAsText(file);
-}
+});
 
-function logout() {
+// Clear data
+document.getElementById("clearBtn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to clear all votes?")) {
+    votes = {};
+    userVotes = {};
+    localStorage.setItem("votes", JSON.stringify(votes));
+    localStorage.setItem("userVotes", JSON.stringify(userVotes));
+    alert("All data cleared!");
+  }
+});
+
+// Logout
+document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("currentUser");
   window.location.href = "index.html";
-}
+});
 
-updateResults();
-disableVoting();
