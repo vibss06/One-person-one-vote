@@ -1,7 +1,7 @@
 // ---- CONFIG: Candidate list ----
 const candidates = [
   { name: "Ethan Miller", desc: "Focused on education and youth development." },
-  { name: "", desc: "Dedicated to healthcare and community services." },
+  { name: "Bob Smith", desc: "Dedicated to healthcare and community services." },
   { name: "Clara Davis", desc: "Advocate for environment and sustainability." },
   { name: "Liam O’Connor", desc: "Promotes digital growth and innovation." }
 ];
