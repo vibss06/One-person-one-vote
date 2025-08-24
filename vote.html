@@ -12,14 +12,17 @@
     <!-- Candidates will be injected here -->
     <div id="candidates"></div>
 
-    <div class="buttons">
-      <button id="exportBtn">Export Votes</button>
-      <button id="importBtn">Import Votes</button>
-      <input type="file" id="fileInput" style="display:none;" />
-      <button id="clearBtn">Clear Data</button>
-      <button id="logoutBtn">Logout</button>
-    </div>
-  </div>
+  <div class="top-bar">
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<div id="candidatesContainer"></div>
+
+<div class="fab-container">
+  <button class="fab-btn clear-btn" onclick="clearData()">🧹 Clear Data</button>
+  <button class="fab-btn export-btn" onclick="exportVotes()">📤 Export</button>
+  <button class="fab-btn import-btn" onclick="importVotes()">📥 Import</button>
+</div>
 
   <script src="js/vote.js"></script>
 </body>
