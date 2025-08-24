@@ -1,124 +1,146 @@
-/* Make page full-screen and centered */
-body {
+/* Reset */
+* {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
+  box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
-  overflow-x: hidden;
 }
 
-/* Header with logout button */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+
+/* Top bar with logout */
+.top-bar {
   width: 100%;
   padding: 15px 30px;
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(6px);
-  z-index: 10;
 }
 
-#logoutBtn {
-  background: #e63946;
+.logout-btn {
+  background: #e74c3c;
   color: white;
-  padding: 10px 18px;
   border: none;
-  border-radius: 25px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 15px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(230, 57, 70, 0.4);
+  transition: 0.3s;
 }
 
-#logoutBtn:hover {
-  background: #c1121f;
+.logout-btn:hover {
+  background: #c0392b;
   transform: scale(1.05);
 }
 
-/* Candidate container */
+/* Voting container */
 #candidatesContainer {
-  margin-top: 80px; /* push below header */
-  width: 90%;
-  max-width: 1100px;
+  flex: 1;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 25px;
+  padding: 40px;
+  justify-items: center;
+  align-items: center;
 }
 
-/* Candidate card style */
+/* Candidate card */
 .candidate {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  padding: 25px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 25px;
+  width: 100%;
+  max-width: 320px;
   text-align: center;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  transition: all 0.3s ease;
+  transition: 0.3s;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
 .candidate:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.25);
 }
 
+/* Candidate name */
 .candidate span {
   display: block;
-  font-size: 20px;
+  font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 15px;
-  color: #333;
 }
 
 /* Vote button */
 .vote-btn {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  padding: 12px 20px;
   border: none;
-  color: white;
-  font-size: 15px;
-  font-weight: bold;
-  padding: 10px 18px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.vote-btn:hover {
-  background: linear-gradient(135deg, #43e97b, #38f9d7);
-  transform: scale(1.07);
-}
-
-/* Controls section (import/export/clear buttons) */
-.controls {
-  margin-top: 40px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  justify-content: center;
-}
-
-.controls button {
-  background: #333;
+  border-radius: 8px;
+  background: #2ecc71;
   color: #fff;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 25px;
+  font-size: 16px;
   cursor: pointer;
-  font-weight: bold;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
-.controls button:hover {
-  background: #111;
+.vote-btn:hover:not(:disabled) {
+  background: #27ae60;
   transform: scale(1.05);
 }
 
+/* Disabled vote button */
+.vote-btn:disabled {
+  background: gray;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Floating Action Buttons */
+.fab-container {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fab-btn {
+  border: none;
+  border-radius: 50px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Individual button styles */
+.clear-btn {
+  background: #e67e22;
+}
+.clear-btn:hover {
+  background: #d35400;
+  transform: scale(1.05);
+}
+
+.export-btn {
+  background: #3498db;
+}
+.export-btn:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+.import-btn {
+  background: #9b59b6;
+}
+.import-btn:hover {
+  background: #8e44ad;
+  transform: scale(1.05);
+}
