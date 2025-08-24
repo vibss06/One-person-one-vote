@@ -1,90 +1,57 @@
-// =============================
-//  Candidate list (EDIT HERE)
-// =============================
-const candidates = ["Vibhanshu", "Raj", "Sneha", "Ananya"];
+// Example candidate list (you already have this in your code)
+const candidates = ["Candidate 1", "Candidate 2", "Candidate 3", "Candidate 4"];
 
-// Track current user
-let currentUser = localStorage.getItem("currentUser");
-
-// Ensure votes object exists
 let votes = JSON.parse(localStorage.getItem("votes")) || {};
-let userVotes = JSON.parse(localStorage.getItem("userVotes")) || {};
+let loggedInUser = localStorage.getItem("loggedInUser");
 
-// Render candidates dynamically
-const candidatesDiv = document.getElementById("candidates");
+// Ensure votes object has all candidates
+candidates.forEach(c => {
+  if (!votes[c]) votes[c] = 0;
+});
+
+const container = document.getElementById("candidatesContainer");
+
+// Render candidates
 candidates.forEach(name => {
   const div = document.createElement("div");
   div.classList.add("candidate");
-  div.innerHTML = `
-    <span>${name}</span>
-    <button class="vote-btn" data-candidate="${name}">Vote</button>
-  `;
-  candidatesDiv.appendChild(div);
-});
 
-// Handle voting
-document.querySelectorAll(".vote-btn").forEach(btn => {
+  const span = document.createElement("span");
+  span.textContent = name;
+
+  const btn = document.createElement("button");
+  btn.classList.add("vote-btn");
+  btn.textContent = "Vote";
+
+  // disable button if this user already voted
+  let userVotes = JSON.parse(localStorage.getItem("userVotes")) || {};
+  if (userVotes[loggedInUser]) {
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+    btn.style.cursor = "not-allowed";
+  }
+
   btn.addEventListener("click", () => {
-    const candidate = btn.dataset.candidate;
-
-    if (userVotes[currentUser]) {
-      alert("You have already voted!");
+    // prevent multiple votes
+    let userVotes = JSON.parse(localStorage.getItem("userVotes")) || {};
+    if (userVotes[loggedInUser]) {
+      alert("You already voted!");
       return;
     }
 
-    votes[candidate] = (votes[candidate] || 0) + 1;
-    userVotes[currentUser] = true;
-
+    votes[name]++;
+    userVotes[loggedInUser] = name; // store candidate name for this user
     localStorage.setItem("votes", JSON.stringify(votes));
     localStorage.setItem("userVotes", JSON.stringify(userVotes));
 
-    alert(`Vote casted for ${candidate}`);
+    alert(`Thanks for voting for ${name}!`);
+    btn.disabled = true;
+    btn.style.opacity = "0.6";
+    btn.style.cursor = "not-allowed";
   });
-});
 
-// Export votes
-document.getElementById("exportBtn").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(votes)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "votes.json";
-  a.click();
-});
-
-// Import votes
-document.getElementById("importBtn").addEventListener("click", () => {
-  document.getElementById("fileInput").click();
-});
-
-document.getElementById("fileInput").addEventListener("change", (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    votes = JSON.parse(e.target.result);
-    localStorage.setItem("votes", JSON.stringify(votes));
-    alert("Votes imported successfully!");
-  };
-  reader.readAsText(file);
-});
-
-// Clear data
-document.getElementById("clearBtn").addEventListener("click", () => {
-  if (confirm("Are you sure you want to clear all votes?")) {
-    votes = {};
-    userVotes = {};
-    localStorage.setItem("votes", JSON.stringify(votes));
-    localStorage.setItem("userVotes", JSON.stringify(userVotes));
-    alert("All data cleared!");
-  }
-});
-
-// Logout
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  localStorage.removeItem("currentUser");
-  window.location.href = "index.html";
+  div.appendChild(span);
+  div.appendChild(btn);
+  container.appendChild(div);
 });
 
