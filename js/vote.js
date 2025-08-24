@@ -1,9 +1,9 @@
 // ---- CONFIG: Candidate list ----
 const candidates = [
-  { name: "Alice Johnson", desc: "Focused on education and youth development." },
-  { name: "Bob Smith", desc: "Dedicated to healthcare and community services." },
+  { name: "Ethan Miller", desc: "Focused on education and youth development." },
+  { name: "", desc: "Dedicated to healthcare and community services." },
   { name: "Clara Davis", desc: "Advocate for environment and sustainability." },
-  { name: "David Wilson", desc: "Promotes digital growth and innovation." }
+  { name: "Liam O’Connor", desc: "Promotes digital growth and innovation." }
 ];
 
 // ---- Load logged-in user ----
