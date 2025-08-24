@@ -2,52 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Voting</title>
+  <title>Voting Page</title>
   <link rel="stylesheet" href="css/vote.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Online Voting</h1>
-    <div class="main">
-      <!-- Voting Area -->
-      <div class="vote-section">
-        <h2>Cast your vote</h2>
-        <p id="welcomeUser"></p>
+  <div class="vote-container">
+    <h2>Online Voting System</h2>
+    
+    <!-- Candidates will be injected here -->
+    <div id="candidates"></div>
 
-        <div class="candidate">
-          <h3>Vibhanshu</h3>
-          <p>2nd year Student of DS-A-39</p>
-          <button onclick="vote('Vibhanshu')">Vote for Vibhanshu</button>
-        </div>
-        <div class="candidate">
-          <h3>Sharayu</h3>
-          <p>2nd year Student of DS-A-38</p>
-          <button onclick="vote('Sharayu')">Vote for Sharayu</button>
-        </div>
-        <div class="candidate">
-          <h3>XYZ</h3>
-          <p>Not a group member</p>
-          <button onclick="vote('XYZ')">Vote for XYZ</button>
-        </div>
-
-        <div class="controls">
-          <button onclick="clearVotes()">Clear votes (local)</button>
-          <button onclick="exportVotes()">Export data</button>
-          <input type="file" id="importFile" onchange="importVotes(event)" hidden>
-          <button onclick="document.getElementById('importFile').click()">Import data</button>
-          <button onclick="logout()">Logout</button>
-        </div>
-      </div>
-
-      <!-- Results -->
-      <div class="results">
-        <h2>Results</h2>
-        <div id="resultsList"></div>
-        <p id="totalVotes"></p>
-      </div>
+    <div class="buttons">
+      <button id="exportBtn">Export Votes</button>
+      <button id="importBtn">Import Votes</button>
+      <input type="file" id="fileInput" style="display:none;" />
+      <button id="clearBtn">Clear Data</button>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
+
   <script src="js/vote.js"></script>
 </body>
 </html>
+
