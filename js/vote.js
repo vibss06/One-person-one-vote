@@ -1,57 +1,101 @@
-// Example candidate list (you already have this in your code)
-const candidates = ["Candidate 1", "Candidate 2", "Candidate 3", "Candidate 4"];
+// ---- CONFIG: Candidate list ----
+const candidates = [
+  { name: "Alice Johnson", desc: "Focused on education and youth development." },
+  { name: "Bob Smith", desc: "Dedicated to healthcare and community services." },
+  { name: "Clara Davis", desc: "Advocate for environment and sustainability." },
+  { name: "David Wilson", desc: "Promotes digital growth and innovation." }
+];
 
+// ---- Load logged-in user ----
+let currentUser = localStorage.getItem("currentUser");
+if (!currentUser) {
+  window.location.href = "index.html"; // if no login, redirect
+}
+document.getElementById("userInfo").innerText = `Logged in as: ${currentUser}`;
+
+// ---- Load votes from localStorage ----
 let votes = JSON.parse(localStorage.getItem("votes")) || {};
-let loggedInUser = localStorage.getItem("loggedInUser");
+let userVotes = JSON.parse(localStorage.getItem("userVotes")) || {}; // track per user
 
-// Ensure votes object has all candidates
-candidates.forEach(c => {
-  if (!votes[c]) votes[c] = 0;
-});
-
+// ---- Render candidates ----
 const container = document.getElementById("candidatesContainer");
+container.innerHTML = "";
+candidates.forEach((c, index) => {
+  const card = document.createElement("div");
+  card.className = "candidate-card";
+  card.innerHTML = `
+    <div class="candidate-name">${c.name}</div>
+    <div class="candidate-desc">${c.desc}</div>
+    <button class="vote-btn" id="voteBtn${index}">Vote</button>
+    <p id="voteCount${index}" class="vote-count">Votes: ${votes[c.name] || 0}</p>
+  `;
+  container.appendChild(card);
 
-// Render candidates
-candidates.forEach(name => {
-  const div = document.createElement("div");
-  div.classList.add("candidate");
-
-  const span = document.createElement("span");
-  span.textContent = name;
-
-  const btn = document.createElement("button");
-  btn.classList.add("vote-btn");
-  btn.textContent = "Vote";
-
-  // disable button if this user already voted
-  let userVotes = JSON.parse(localStorage.getItem("userVotes")) || {};
-  if (userVotes[loggedInUser]) {
-    btn.disabled = true;
-    btn.style.opacity = "0.6";
-    btn.style.cursor = "not-allowed";
-  }
+  const btn = card.querySelector(`#voteBtn${index}`);
+  if (userVotes[currentUser]) btn.disabled = true; // disable if already voted
 
   btn.addEventListener("click", () => {
-    // prevent multiple votes
-    let userVotes = JSON.parse(localStorage.getItem("userVotes")) || {};
-    if (userVotes[loggedInUser]) {
-      alert("You already voted!");
-      return;
-    }
+    if (!userVotes[currentUser]) {
+      votes[c.name] = (votes[c.name] || 0) + 1;
+      userVotes[currentUser] = c.name;
 
-    votes[name]++;
-    userVotes[loggedInUser] = name; // store candidate name for this user
+      localStorage.setItem("votes", JSON.stringify(votes));
+      localStorage.setItem("userVotes", JSON.stringify(userVotes));
+
+      document.getElementById(`voteCount${index}`).innerText = `Votes: ${votes[c.name]}`;
+      btn.disabled = true;
+    }
+  });
+});
+
+// ---- Clear data ----
+document.getElementById("clearDataBtn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to clear all votes?")) {
+    votes = {};
+    userVotes = {};
     localStorage.setItem("votes", JSON.stringify(votes));
     localStorage.setItem("userVotes", JSON.stringify(userVotes));
-
-    alert(`Thanks for voting for ${name}!`);
-    btn.disabled = true;
-    btn.style.opacity = "0.6";
-    btn.style.cursor = "not-allowed";
-  });
-
-  div.appendChild(span);
-  div.appendChild(btn);
-  container.appendChild(div);
+    location.reload();
+  }
 });
+
+// ---- Export data ----
+document.getElementById("exportBtn").addEventListener("click", () => {
+  const blob = new Blob([JSON.stringify({ votes, userVotes })], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "votes-data.json";
+  a.click();
+});
+
+// ---- Import data ----
+document.getElementById("importBtn").addEventListener("click", () => {
+  document.getElementById("importFile").click();
+});
+document.getElementById("importFile").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    try {
+      const data = JSON.parse(event.target.result);
+      votes = data.votes || {};
+      userVotes = data.userVotes || {};
+      localStorage.setItem("votes", JSON.stringify(votes));
+      localStorage.setItem("userVotes", JSON.stringify(userVotes));
+      location.reload();
+    } catch {
+      alert("Invalid file format!");
+    }
+  };
+  reader.readAsText(file);
+});
+
+// ---- Logout ----
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "index.html";
+}
+document.getElementById("logoutBtn").addEventListener("click", logout);
 
