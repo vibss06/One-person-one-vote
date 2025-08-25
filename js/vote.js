@@ -1,9 +1,9 @@
 // ---- CONFIG: Candidate list ----
 const candidates = [
-  { name: "Sharayu ", desc: "Focused on education and youth development." },
-  { name: "Vibhanshu", desc: "Dedicated to healthcare and community services." },
-  { name: "ABC", desc: "Advocate for environment and sustainability." },
-  { name: "XYZ", desc: "Promotes digital growth and innovation." }
+  { name: "Sharayu ", desc: "2nd year Student OF DATA SCIENCE" },
+  { name: "Vibhanshu", desc: "2nd year Student Of DATA SCEINCE " },
+  { name: "ABC", desc: "Not a group member" },
+  { name: "XYZ", desc: "Vote Here ." }
 ];
 
 // ---- Load logged-in user ----
