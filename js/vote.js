@@ -1,9 +1,9 @@
 // ---- CONFIG: Candidate list ----
 const candidates = [
-  { name: "Sharayu ", desc: "2nd year Student OF DATA SCIENCE" },
-  { name: "Vibhanshu", desc: "2nd year Student Of DATA SCEINCE " },
+  { name: "Sharayu ", desc: "2nd year Student OF DATA SCIENCE (DS-38)" },
+  { name: "Vibhanshu", desc: "2nd year Student Of DATA SCEINCE  (DS-39)" },
   { name: "ABC", desc: "Not a group member" },
-  { name: "XYZ", desc: "Vote Here ." }
+  { name: "XYZ", desc: "Not group member" }
 ];
 
 // ---- Load logged-in user ----
